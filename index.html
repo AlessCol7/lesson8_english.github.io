@@ -2,164 +2,1271 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Teacher Guide // Lesson 8: LEGO Master Builder Academy (B2 &amp; Olympiad)</title>
+  <title>Lesson 8: LEGO Master Builder Academy // B2 &amp; Olympiad Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,600&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f2f5fa;
-      --dark: #161a26;
-      --blue: #006cb7;
-      --red: #d9232e;
-      --green: #009639;
-      --yellow: #ffcf00;
-      --orange: #ff6b00;
-      --text: #1c2230;
-      --muted: #56627a;
+      --bg-base: #f2f5fa;
+      --lego-blue: #006cb7;
+      --lego-red: #d9232e;
+      --lego-green: #009639;
+      --lego-yellow: #ffcf00;
+      --lego-orange: #ff6b00;
+      --lego-dark: #161a26;
+      --card-bg: #ffffff;
+      --text-main: #1c2230;
+      --text-muted: #56627a;
+      --border-light: #d8dfec;
+      --radius: 16px;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg);
-      color: var(--text);
+      background-color: var(--bg-base);
+      background-image: radial-gradient(#ccd4e3 2px, transparent 2px);
+      background-size: 26px 26px;
+      color: var(--text-main);
       font-family: 'Nunito', sans-serif;
-      padding: 28px 16px 70px;
+      min-height: 100vh;
+      padding: 22px 16px 80px;
     }
-    .wrapper { max-width: 880px; margin: 0 auto; }
+
+    .wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* TOP HEADER & HORIZONTAL BRICK TABS */
     header {
-      background: var(--dark);
+      background: var(--lego-dark);
+      border-radius: 20px;
+      padding: 22px 24px 20px;
+      margin-bottom: 26px;
+      box-shadow: 0 12px 30px rgba(22, 26, 38, 0.25);
+      border-bottom: 6px solid var(--lego-yellow);
+      text-align: center;
+    }
+    .academy-tag {
+      display: inline-block;
+      background: var(--lego-yellow);
+      color: #161a26;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.35rem;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .header-sub {
+      color: #a8b3cf;
+      font-size: 0.96rem;
+      margin-bottom: 20px;
+    }
+
+    /* HORIZONTAL BRICK NAVIGATION BAR */
+    .brick-nav {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 780px) {
+      .brick-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+    .brick-tab {
+      position: relative;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 8px 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
       color: #fff;
-      padding: 24px;
-      border-radius: 16px;
-      border-bottom: 5px solid var(--yellow);
+      text-align: center;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.35);
+      opacity: 0.78;
+    }
+    .brick-tab::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 54%;
+      height: 5px;
+      background: inherit;
+      border-radius: 3px 3px 0 0;
+      filter: brightness(1.08);
+    }
+    .brick-tab:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+    .brick-tab.active {
+      opacity: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 7px 0 rgba(0,0,0,0.45), 0 0 18px rgba(255,255,255,0.35);
+      outline: 3px solid #ffffff;
+    }
+    .brick-tab span {
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.92;
+      margin-bottom: 2px;
+    }
+
+    .tab-blue { background: var(--lego-blue); }
+    .tab-red { background: var(--lego-red); }
+    .tab-green { background: var(--lego-green); }
+    .tab-yellow { background: var(--lego-yellow); color: #161a26; }
+    .tab-orange { background: var(--lego-orange); }
+
+    /* ISOLATED PAGE VIEWS */
+    .chapter-page {
+      display: none;
+      animation: pagePop 0.25s ease-out;
+    }
+    .chapter-page.active {
+      display: block;
+    }
+    @keyframes pagePop {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lego-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 30px 28px;
+      box-shadow: 0 10px 25px rgba(22, 26, 38, 0.08);
       margin-bottom: 24px;
     }
-    .tag {
-      background: var(--yellow);
-      color: var(--dark);
+    .set-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      color: var(--lego-dark);
+      margin-bottom: 12px;
+    }
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--lego-dark);
+      margin: 22px 0 10px;
+    }
+    p, li {
+      font-size: 1.01rem;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
+    /* LEGO ACTION BUTTONS */
+    .lego-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 22px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: #fff;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin-top: 14px;
+    }
+    .lego-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 rgba(0,0,0,0.28);
+    }
+    .lego-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+    }
+
+    .page-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top: 2px dashed var(--border-light);
+    }
+
+    /* IDIOM CARDS (EN + RO) */
+    .idiom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .idiom-brick {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-top: 5px solid var(--lego-blue);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .idiom-en {
+      font-weight: 900;
+      font-size: 1.04rem;
+      color: var(--lego-blue);
+      margin-bottom: 4px;
+    }
+    .idiom-ro {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
       font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 12px;
-      display: inline-block;
-      margin-bottom: 8px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
     }
-    h1 { font-family: 'Playfair Display', serif; font-size: 2rem; }
-    .card {
-      background: #fff;
-      border: 2px solid #d8dfec;
-      border-radius: 14px;
+    .idiom-ex {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    /* IDIOM MATCHING */
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .match-tile {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: all 0.2s;
+    }
+    .match-tile:hover { border-color: var(--lego-blue); background: #eef6ff; }
+    .match-tile.selected { border-color: var(--lego-blue); background: #dbeafe; }
+    .match-tile.matched { border-color: var(--lego-green); background: #dcfce7; color: #14532d; cursor: default; }
+
+    /* INPUTS & SELECTS */
+    input.brick-input, select.brick-select {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.94rem;
+      color: var(--lego-dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input.brick-input:focus, select.brick-select:focus {
+      border-color: var(--lego-blue);
+    }
+
+    /* REPHRASING & CLOZE */
+    .theory-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--border-light);
+    }
+    .theory-table th, .theory-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-light);
+      text-align: left;
+    }
+    .theory-table th {
+      background: #fee2e2;
+      color: #991b1b;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+    .rephrase-card {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-left: 6px solid var(--lego-red);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .key-badge {
+      display: inline-block;
+      background: var(--lego-red);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 2px 9px;
+      border-radius: 6px;
+      margin: 5px 0;
+    }
+    .cloze-box {
+      background: #fff1f2;
+      border: 2px solid #fecdd3;
+      border-radius: 12px;
+      padding: 20px;
+      line-height: 2.25;
+      margin: 16px 0;
+    }
+
+    /* CAMBRIDGE B2 GAPPED TEXT (MISSING SENTENCES INSIDE STORY) */
+    .passage-box {
+      background: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      border-left: 6px solid var(--lego-green);
+      border-radius: 12px;
       padding: 22px;
+      margin: 16px 0;
+      line-height: 1.9;
+    }
+    .passage-box p { margin-bottom: 14px; }
+    .passage-box p:last-child { margin-bottom: 0; }
+    .gap-slot {
+      display: inline-block;
+      background: #dcfce7;
+      border: 2px dashed var(--lego-green);
+      border-radius: 8px;
+      padding: 2px 8px;
+      margin: 0 4px;
+      font-weight: 800;
+      color: #14532d;
+    }
+    .sentence-pool {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+    .sentence-pool li {
+      margin-left: 20px;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .q-card {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .q-card p { font-weight: 800; margin-bottom: 6px; }
+    .q-card label { display: block; margin: 5px 0; cursor: pointer; font-size: 0.94rem; }
+    .q-card input[type="radio"] { margin-right: 8px; accent-color: var(--lego-green); }
+
+    /* EXTERNAL PRACTICE LINKS BOX (PER CHAPTER) */
+    .external-box {
+      background: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-top: 24px;
+    }
+    .external-box h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--lego-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ext-links-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .ext-card {
+      display: block;
+      text-decoration: none;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .ext-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--lego-blue);
+    }
+    .ext-card strong { display: block; font-size: 0.92rem; color: var(--lego-blue); margin-bottom: 2px; }
+    .ext-card span { font-size: 0.8rem; color: var(--text-muted); display: block; line-height: 1.35; }
+
+    /* AUDIO BAR */
+    .audio-bar {
+      background: #fefce8;
+      border: 2px solid #fde047;
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 18px;
     }
-    h2 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: 8px; }
-    .btn {
-      background: var(--dark);
-      color: #fff;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-weight: 800;
-      cursor: pointer;
-      font-size: 0.85rem;
-      margin: 8px 0;
+    .stud-waves { display: flex; gap: 5px; align-items: flex-end; height: 24px; }
+    .s-bar {
+      width: 6px; background: var(--lego-dark); border-radius: 2px;
+      animation: bounceBar 1s infinite alternate ease-in-out;
     }
-    .key {
-      background: #f0fdf4;
-      border-left: 4px solid var(--green);
-      padding: 12px 16px;
-      border-radius: 0 8px 8px 0;
+    .s-bar:nth-child(2) { animation-delay: 0.2s; height: 18px; background: var(--lego-red); }
+    .s-bar:nth-child(3) { animation-delay: 0.4s; height: 24px; background: var(--lego-blue); }
+    .s-bar:nth-child(4) { animation-delay: 0.1s; height: 14px; background: var(--lego-green); }
+    @keyframes bounceBar { 0% { height: 6px; } 100% { height: 24px; } }
+
+    /* STORY LOGIC BRIDGE & WRITING */
+    .bridge-box {
+      background: #fff7ed;
+      border: 2px solid #fed7aa;
+      border-left: 6px solid var(--lego-orange);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+      line-height: 1.85;
+    }
+    textarea.lego-pad {
+      width: 100%;
+      height: 115px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 0.96rem;
       margin-top: 8px;
-      line-height: 1.7;
+      outline: none;
+      resize: vertical;
     }
-    .hidden { display: none; }
-    .note { color: var(--muted); font-style: italic; font-size: 0.95rem; margin-bottom: 6px; }
+    textarea.lego-pad:focus { border-color: var(--lego-orange); }
+
+    .speak-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .speak-tile {
+      background: #f8fafc;
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .speak-tile h4 { color: #c2410c; margin-bottom: 6px; }
+
+    .feedback-box {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      margin-top: 14px;
+      display: none;
+    }
   </style>
 </head>
 <body>
+
 <div class="wrapper">
   <header>
-    <span class="tag">TEACHER'S RUNBOOK // CAMBRIDGE B2 + 6TH-GRADE OLYMPIAD</span>
-    <h1>Lesson 8: LEGO Master Builder Academy (Expanded)</h1>
-    <p style="color:#a8b3cf; margin-top:4px;">Multi-page horizontal brick navigation • 10 B2 Idioms (EN–RO) • 16 Use of English Items • Cambridge Part 6 Gapped Text • Story Logic Bridges.</p>
+    <div class="academy-tag">CAMBRIDGE B2 FIRST + ROMANIAN OLYMPIAD // LEVEL UP</div>
+    <h1>LEGO Master Builder Academy</h1>
+    <p class="header-sub">Select a LEGO Set brick below to switch to that chapter's dedicated training room.</p>
+
+    <nav class="brick-nav">
+      <button class="brick-tab tab-blue active" onclick="openChapter('page1', this)">
+        <span>Set 01 // Technic</span>
+        10 B2 Idioms &amp; Drills
+      </button>
+      <button class="brick-tab tab-red" onclick="openChapter('page2', this)">
+        <span>Set 02 // Star Wars</span>
+        Rephrasing &amp; Cloze
+      </button>
+      <button class="brick-tab tab-green" onclick="openChapter('page3', this)">
+        <span>Set 03 // Ninjago</span>
+        B2 Gapped Reading
+      </button>
+      <button class="brick-tab tab-yellow" onclick="openChapter('page4', this)">
+        <span>Set 04 // Speed Champ</span>
+        Pit Crew Listening
+      </button>
+      <button class="brick-tab tab-orange" onclick="openChapter('page5', this)">
+        <span>Set 05 // Creator</span>
+        Story Logic &amp; Speaking
+      </button>
+    </nav>
   </header>
 
-  <div class="card" style="border-top: 5px solid var(--blue);">
-    <h2>Set 01 (LEGO Technic): 10 B2 Idioms Master Key</h2>
-    <p class="note">Have Theo read the Romanian translations aloud and invent a quick spoken example for 2–3 of them before doing Exercise 1B.</p>
-    <button class="btn" onclick="toggle('k1')">👁️ Toggle Answer Key</button>
-    <div id="k1" class="key hidden">
-      <p><strong>Exercise 1A (Matching):</strong> 1–C, 2–E, 3–F, 4–A, 5–D, 6–B</p>
-      <p style="margin-top:8px;"><strong>Exercise 1B (Gap-Fills):</strong></p>
-      <ol style="margin-left:20px;">
-        <li><strong>cost an arm and a leg</strong> (or <strong>costs an arm and a leg</strong>)</li>
-        <li><strong>back to the drawing board</strong></li>
-        <li><strong>hit the nail on the head</strong></li>
-        <li><strong>call it a day</strong></li>
-        <li><strong>cut corners</strong></li>
-      </ol>
-    </div>
-  </div>
+  <!-- =========================================================
+       PAGE 1: LEGO TECHNIC (10 B2 IDIOMS + MATCHING + GAP-FILLS)
+       ========================================================= -->
+  <main id="page1" class="chapter-page active">
+    <div class="lego-card">
+      <div class="set-banner" style="background: var(--lego-blue);">Set 42154 // LEGO Technic Idiom Lab</div>
+      <h2>10 High-Level Idioms (with Romanian Equivalents)</h2>
+      <p>Since you already know standard vocabulary, let's upgrade to <strong>Cambridge B2 &amp; Olympiad idioms</strong>. Study these 10 figurative expressions, their Romanian translations, and how native speakers use them:</p>
 
-  <div class="card" style="border-top: 5px solid var(--red);">
-    <h2>Set 02 (LEGO Star Wars): Rephrasing (8) &amp; B2 Open Cloze (8)</h2>
-    <p class="note">Remind Theo of the golden rule of Cambridge Part 4 &amp; Olympiad Rephrasing: <strong>2 to 5 words maximum</strong>, and never change the form of the given KEY WORD.</p>
-    <button class="btn" onclick="toggle('k2')">👁️ Toggle Answer Key</button>
-    <div id="k2" class="key hidden">
-      <p><strong>Part A — Key Word Transformations:</strong></p>
-      <ol style="margin-left:20px; margin-bottom:10px;">
-        <li>1. Theo <strong>has collected LEGO Star Wars ships for</strong> two years.</li>
-        <li>2. That TIE Fighter model was <strong>not cheap enough</strong> for me to buy.</li>
-        <li>3. The hyperdrive <strong>is repaired by R2-D2</strong> every week.</li>
-        <li>4. If I <strong>were you, I would not</strong> (or <strong>wouldn't</strong>) drop tiny LEGO pieces on a carpet!</li>
-        <li>5. I <strong>wish I had checked</strong> the blueprint before gluing the wings.</li>
-        <li>6. Andrei is <strong>the fastest builder</strong> in our club.</li>
-        <li>7. We finished the Death Star <strong>despite the complicated</strong> instructions.</li>
-        <li>8. Solving the grammar quiz was <strong>a piece of cake</strong> for Theo.</li>
-      </ol>
-      <p><strong>Part B — Cambridge B2 Open Cloze:</strong></p>
-      <p>1. <strong>but</strong> (or <strong>yet</strong>) | 2. <strong>out</strong> (<em>made out of</em>) | 3. <strong>than</strong> | 4. <strong>though</strong> (or <strong>if</strong>) | 5. <strong>so</strong> | 6. <strong>were</strong> | 7. <strong>where</strong> | 8. <strong>which</strong> (or <strong>that</strong>)</p>
-    </div>
-  </div>
+      <div class="idiom-grid">
+        <div class="idiom-brick">
+          <div class="idiom-en">1. Cut corners</div>
+          <span class="idiom-ro">RO: A face treabă de mântuială / A scurta drumul</span>
+          <div class="idiom-ex">"If you cut corners on the Technic gearbox, the wheels will jam later."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">2. Back to the drawing board</div>
+          <span class="idiom-ro">RO: De la capăt / O luăm de la zero</span>
+          <div class="idiom-ex">"The bridge collapsed during testing, so it's back to the drawing board."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">3. A blessing in disguise</div>
+          <span class="idiom-ro">RO: Un rău spre bine</span>
+          <div class="idiom-ex">"Losing the grey bricks was a blessing in disguise because the black ones looked cooler."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">4. Bite off more than you can chew</div>
+          <span class="idiom-ro">RO: A se înhăma la mai mult decât poate duce</span>
+          <div class="idiom-ex">"Building a 6,000-piece set in one evening meant biting off more than I could chew."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">5. Hit the nail on the head</div>
+          <span class="idiom-ro">RO: A pune punctul pe „i” / A nimeri exact</span>
+          <div class="idiom-ex">"Theo hit the nail on the head when he spotted the reversed axle."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">6. Cost an arm and a leg</div>
+          <span class="idiom-ro">RO: A costa o avere / O căruță de bani</span>
+          <div class="idiom-ex">"Collector's edition LEGO sets usually cost an arm and a leg."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">7. Once in a blue moon</div>
+          <span class="idiom-ro">RO: Din an în Paște / Foarte rar</span>
+          <div class="idiom-ex">"Our robotics club enters an international contest once in a blue moon."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">8. Call it a day</div>
+          <span class="idiom-ro">RO: A încheia munca pe ziua de azi</span>
+          <div class="idiom-ex">"We've finished 400 steps—let's call it a day and continue tomorrow."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">9. Get out of hand</div>
+          <span class="idiom-ro">RO: A scăpa de sub control</span>
+          <div class="idiom-ex">"When everyone dumped their brick boxes onto the floor, things got out of hand."</div>
+        </div>
+        <div class="idiom-brick">
+          <div class="idiom-en">10. On the same page</div>
+          <span class="idiom-ro">RO: Pe aceeași lungime de undă</span>
+          <div class="idiom-ex">"Before we build the tower, let's make sure we are all on the same page."</div>
+        </div>
+      </div>
 
-  <div class="card" style="border-top: 5px solid var(--green);">
-    <h2>Set 03 (LEGO Ninjago): Cambridge B2 Part 6 Gapped Text</h2>
-    <p class="note"><strong>How to coach Gapped Text logic:</strong> Ask Theo to underline the "clue words" right after each gap. For example, right after Gap 1 the text says <em>"Whenever spectators clapped their hands near the table, the dragon roared..."</em>—which proves Gap 1 must introduce the <strong>sound-sensor motor</strong> (Sentence C).</p>
-    <button class="btn" onclick="toggle('k3')">👁️ Toggle Answer Key</button>
-    <div id="k3" class="key hidden">
-      <ol style="margin-left:20px;">
-        <li><strong>Gap 1: C</strong> — Introduces the programmable sound-sensor motor that explains the roaring/flapping in the next sentence.</li>
-        <li><strong>Gap 2: A</strong> — Explains why the wings were frozen (battery pack vanished), leading into security guards checking the exit.</li>
-        <li><strong>Gap 3: E</strong> — Connects opening the Bluetooth app to following the green radar dot on his screen.</li>
-        <li><strong>Gap 4: B</strong> — Explains how he got the battery back from the toddler without causing a scene, allowing him to reinstall it in two minutes.</li>
-      </ol>
-      <p style="margin-top:6px; color:var(--muted);"><em>(Distractor D is unused because the competition was never cancelled.)</em></p>
-    </div>
-  </div>
+      <h3>Exercise 1A: Idiom Brick Snap (Match 1–6)</h3>
+      <p style="font-size:0.94rem; color:var(--text-muted);">Click an idiom on the left and snap it to its exact figurative meaning on the right:</p>
 
-  <div class="card" style="border-top: 5px solid var(--yellow);">
-    <h2>Set 04 (Speed Champions): Pit Crew Audio Key</h2>
-    <button class="btn" onclick="toggle('k4')">👁️ Toggle Answer Key</button>
-    <div id="k4" class="key hidden">
-      <ol style="margin-left:20px;">
-        <li><strong>1: A</strong> — Someone had <em>cut corners</em> and hadn't pushed two Technic pins in completely.</li>
-        <li><strong>2: B</strong> — He calls it <em>"a blessing in disguise"</em> because they caught the flaw before the race.</li>
-        <li><strong>3: A</strong> — Everyone must be <em>"on the same page"</em> and double-check every connection step by step.</li>
-      </ol>
-    </div>
-  </div>
+      <div class="match-grid">
+        <div id="id-left" style="display:flex; flex-direction:column; gap:8px;">
+          <div class="match-tile" data-id="1">1. Cut corners</div>
+          <div class="match-tile" data-id="2">2. Back to the drawing board</div>
+          <div class="match-tile" data-id="3">3. Cost an arm and a leg</div>
+          <div class="match-tile" data-id="4">4. Call it a day</div>
+          <div class="match-tile" data-id="5">5. Get out of hand</div>
+          <div class="match-tile" data-id="6">6. On the same page</div>
+        </div>
+        <div id="id-right" style="display:flex; flex-direction:column; gap:8px;">
+          <div class="match-tile" data-match="4">A. Stop working on a project for the rest of the day.</div>
+          <div class="match-tile" data-match="6">B. Agreeing completely about a plan or how to proceed.</div>
+          <div class="match-tile" data-match="1">C. Do something quickly and cheaply by skipping important steps.</div>
+          <div class="match-tile" data-match="5">D. Become chaotic and impossible to control.</div>
+          <div class="match-tile" data-match="2">E. Start designing a plan all over again because the first one failed.</div>
+          <div class="match-tile" data-match="3">F. Be extremely expensive.</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <span id="idiomStat" style="font-family:'JetBrains Mono', monospace; font-weight:800; color:var(--lego-blue);">Snapped: 0 / 6 Idioms</span>
+        <button class="lego-btn" style="background:#64748b; padding:5px 12px; font-size:0.8rem; margin:0;" onclick="resetIdioms()">↺ Reset</button>
+      </div>
 
-  <div class="card" style="border-top: 5px solid var(--orange);">
-    <h2>Set 05 (Creator Expert): Coaching Creative Story Logic</h2>
-    <p class="note"><strong>Why "Missing Middle" works for non-creative writers:</strong> When a student doesn't know what to invent, giving them both the <em>Start</em> and the <em>Ending</em> turns creative writing into a logical puzzle. Look at Bridge 1: the ending says <em>"Thanks to those triangular support pillars..."</em>—so Theo knows he must invent a middle paragraph where the flat bridge collapses and they decide to build triangular pillars!</p>
-  </div>
+      <h3>Exercise 1B: Complete the Sentences with the Right Idiom</h3>
+      <div style="line-height:2.3; background:#f8fafc; padding:18px; border-radius:12px; border:2px solid var(--border-light);">
+        1. That rare Star Wars set <input type="text" class="brick-input" id="idg1" placeholder="type idiom..." style="width:220px;">, so I had to save my allowance for eight months.<br>
+        2. Our first robot prototype couldn't climb the ramp, so we went <input type="text" class="brick-input" id="idg2" placeholder="type idiom..." style="width:230px;">.<br>
+        3. You <input type="text" class="brick-input" id="idg3" placeholder="type idiom..." style="width:220px;">! That missing gear is the exact reason the motor stalled.<br>
+        4. We've been studying for three hours straight—let's <input type="text" class="brick-input" id="idg4" placeholder="type idiom..." style="width:180px;"> and play a quick match.<br>
+        5. Never <input type="text" class="brick-input" id="idg5" placeholder="type idiom..." style="width:180px;"> when building a tall LEGO tower, or the base will wobble!
+      </div>
+      <button class="lego-btn" style="background:var(--lego-blue);" onclick="checkIdiomGaps()">🔧 Verify Idiom Usage</button>
+      <div class="feedback-box" id="idGapFeedback"></div>
+
+      <!-- EXTERNAL LINKS FOR CHAPTER 1 -->
+      <div class="external-box">
+        <h4>🌐 External Practice: Cambridge B2 Idioms &amp; Vocabulary</h4>
+        <div class="ext-links-row">
+          <a class="ext-card" href="https://learnenglishteens.britishcouncil.org/vocabulary/b1-b2-vocabulary" target="_blank" rel="noopener noreferrer">
+            <strong>British Council B1–B2 Vocabulary</strong>
+            <span>Interactive matching and gap-fill exercises for upper-intermediate expressions.</span>
+          </a>
+          <a class="ext-card" href="https://www.englishclub.com/ref/Idioms/" target="_blank" rel="noopener noreferrer">
+            <strong>EnglishClub Idioms Reference &amp; Quizzes</strong>
+            <span>Categorized idioms with definitions, examples, and self-grading quizzes.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-footer-nav">
+        <span style="color:var(--text-muted); font-size:0.86rem; font-weight:700;">Page 1 of 5 • LEGO Technic</span>
+        <button class="lego-btn" style="background:var(--lego-red); margin:0;" onclick="goToPage('page2', 1)">Next: Star Wars Use of English ➔</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       PAGE 2: LEGO STAR WARS (REPHRASING + B2 OPEN CLOZE)
+       ========================================================= -->
+  <main id="page2" class="chapter-page">
+    <div class="lego-card">
+      <div class="set-banner" style="background: var(--lego-red);">Set 75192 // Cambridge B2 + Olympiad Use of English</div>
+      <h2>Part A: Key Word Transformations (8 Drills)</h2>
+      <p>Use the <strong>Cross-Out Brick Method</strong>: cross out words that repeat in both sentences, then rebuild the remaining meaning using the <strong>KEY WORD</strong> (between <strong>2 and 5 words</strong>, without changing the key word):</p>
+
+      <table class="theory-table">
+        <thead>
+          <tr>
+            <th>Transformation Rule</th>
+            <th>Sentence 1</th>
+            <th>Key Word</th>
+            <th>Sentence 2 (Rebuilt)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Past $\leftrightarrow$ Present Perfect</strong></td>
+            <td>Han last flew the Falcon two weeks ago.</td>
+            <td><code>FLOWN</code></td>
+            <td>Han <strong>has not flown the Falcon for</strong> two weeks.</td>
+          </tr>
+          <tr>
+            <td><strong>Too $\leftrightarrow$ Not... Enough</strong></td>
+            <td>The trench is too narrow for a cruiser.</td>
+            <td><code>WIDE</code></td>
+            <td>The trench is <strong>not wide enough for</strong> a cruiser.</td>
+          </tr>
+          <tr>
+            <td><strong>Active $\leftrightarrow$ Passive</strong></td>
+            <td>Luke destroyed the tracking droid.</td>
+            <td><code>WAS</code></td>
+            <td>The tracking droid <strong>was destroyed by</strong> Luke.</td>
+          </tr>
+          <tr>
+            <td><strong>Regret (Wish + had + V3)</strong></td>
+            <td>I regret not saving my game earlier.</td>
+            <td><code>WISH</code></td>
+            <td>I <strong>wish I had saved</strong> my game earlier.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rephrase-card">
+        <div>1. Theo began collecting LEGO Star Wars ships two years ago.</div>
+        <span class="key-badge">COLLECTED</span>
+        <div>Theo <input type="text" class="brick-input" id="rp1" placeholder="2-5 words..." style="width:270px;"> two years.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>2. That TIE Fighter model was too expensive for me to buy.</div>
+        <span class="key-badge">CHEAP</span>
+        <div>That TIE Fighter model was <input type="text" class="brick-input" id="rp2" placeholder="2-5 words..." style="width:270px;"> for me to buy.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>3. R2-D2 repairs the hyperdrive every week.</div>
+        <span class="key-badge">IS</span>
+        <div>The hyperdrive <input type="text" class="brick-input" id="rp3" placeholder="2-5 words..." style="width:270px;"> every week.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>4. You shouldn't drop tiny LEGO pieces on a fluffy carpet!</div>
+        <span class="key-badge">WERE</span>
+        <div>If I <input type="text" class="brick-input" id="rp4" placeholder="2-5 words..." style="width:270px;"> drop tiny LEGO pieces on a carpet!</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>5. I regret not checking the blueprint before gluing the wings.</div>
+        <span class="key-badge">WISH</span>
+        <div>I <input type="text" class="brick-input" id="rp5" placeholder="2-5 words..." style="width:270px;"> the blueprint before gluing the wings.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>6. Nobody in our club builds faster than Andrei.</div>
+        <span class="key-badge">THE</span>
+        <div>Andrei is <input type="text" class="brick-input" id="rp6" placeholder="2-5 words..." style="width:270px;"> in our club.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>7. Although the instructions were complicated, we finished the Death Star.</div>
+        <span class="key-badge">DESPITE</span>
+        <div>We finished the Death Star <input type="text" class="brick-input" id="rp7" placeholder="2-5 words..." style="width:270px;"> instructions.</div>
+      </div>
+
+      <div class="rephrase-card">
+        <div>8. Solving the grammar quiz was extremely easy for Theo.</div>
+        <span class="key-badge">CAKE</span>
+        <div>Solving the grammar quiz was <input type="text" class="brick-input" id="rp8" placeholder="2-5 words..." style="width:270px;"> for Theo.</div>
+      </div>
+
+      <button class="lego-btn" style="background:var(--lego-red);" onclick="checkRephrasing()">🧱 Verify All 8 Transformations</button>
+      <div class="feedback-box" id="rpFeedback"></div>
+
+      <hr style="border:none; border-top:2px dashed var(--border-light); margin:28px 0 20px;">
+
+      <h3>Part B: Cambridge B2 First Open Cloze (8 Missing Words)</h3>
+      <p style="font-size:0.94rem; color:var(--text-muted);">Type <strong>ONE single word</strong> in each gap (prepositions, relative pronouns, auxiliary verbs, or linkers) to complete the text:</p>
+
+      <div class="cloze-box">
+        Most people think LEGO is just a toy for young children, <strong>(1)</strong> <input type="text" class="brick-input" id="cl1" style="width:95px;"> in reality, professional engineers use it to prototype complex machines. In 2009, British presenter James May built a full-sized house made entirely <strong>(2)</strong> <input type="text" class="brick-input" id="cl2" style="width:95px;"> of 3.3 million plastic bricks. It took more <strong>(3)</strong> <input type="text" class="brick-input" id="cl3" style="width:95px;"> a thousand volunteers to assemble the walls, staircase, and furniture. Even <strong>(4)</strong> <input type="text" class="brick-input" id="cl4" style="width:95px;"> the bed was quite uncomfortable to sleep on, the house had a working shower and toilet! Unfortunately, nobody wanted to buy the property, <strong>(5)</strong> <input type="text" class="brick-input" id="cl5" style="width:95px;"> it had to be taken apart. However, the bricks were not wasted; they <strong>(6)</strong> <input type="text" class="brick-input" id="cl6" style="width:95px;"> donated to local schools so students could learn engineering. If you ever visit Billund in Denmark, <strong>(7)</strong> <input type="text" class="brick-input" id="cl7" style="width:95px;"> the LEGO headquarters is located, you can see giant sculptures <strong>(8)</strong> <input type="text" class="brick-input" id="cl8" style="width:95px;"> have taken Master Builders thousands of hours to complete.
+      </div>
+      <button class="lego-btn" style="background:var(--lego-dark);" onclick="checkOpenCloze()">⚡ Verify Open Cloze</button>
+      <div class="feedback-box" id="clozeFeedback"></div>
+
+      <!-- EXTERNAL LINKS FOR CHAPTER 2 -->
+      <div class="external-box">
+        <h4>🌐 External Practice: Cambridge B2 Use of English &amp; Romanian Olympiad</h4>
+        <div class="ext-links-row">
+          <a class="ext-card" href="https://engexam.info/fce-reading-and-use-of-english-practice-tests/" target="_blank" rel="noopener noreferrer">
+            <strong>EngExam.info — FCE (B2) Practice Tests</strong>
+            <span>26 full Cambridge B2 Reading &amp; Use of English tests with instant answer keys.</span>
+          </a>
+          <a class="ext-card" href="https://www.isj-db.ro/public/static/files/lb_moderne/olimpiada/MODEL_DE_SUBIECT_OLIMPIADA_CLASA_a-VI-a_SECIUNEA_A_NORMAL.doc" target="_blank" rel="noopener noreferrer">
+            <strong>Model Subiect Olimpiadă Clasa a VI-a (ISJ)</strong>
+            <span>Official county-level 6th-grade Romanian English Olympiad test paper.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-footer-nav">
+        <button class="lego-btn" style="background:#64748b; margin:0;" onclick="goToPage('page1', 0)">⬅ Prev: Technic Idioms</button>
+        <button class="lego-btn" style="background:var(--lego-green); margin:0;" onclick="goToPage('page3', 2)">Next: Ninjago Gapped Text ➔</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       PAGE 3: LEGO NINJAGO (CAMBRIDGE B2 GAPPED TEXT + READING)
+       ========================================================= -->
+  <main id="page3" class="chapter-page">
+    <div class="lego-card">
+      <div class="set-banner" style="background: var(--lego-green);">Set 71741 // Cambridge B2 Part 6: Gapped Text Logic</div>
+      <h2>Missing Sentence Logic: "The Dragon Core Mystery"</h2>
+      <p>In <strong>Cambridge B2 First (Part 6)</strong>, full sentences have been removed from the middle of a story. Read the sentences <strong>before and after</strong> each gap carefully to figure out which missing sentence (<strong>A–E</strong>) connects the logic smoothly. <em>(There is one extra sentence you do not need!)</em></p>
+
+      <div class="passage-box">
+        <p>Every spring, thousands of young builders travel to the Ninjago Brick Convention to display their custom creations. Last April, fourteen-year-old Leo spent four months assembling a giant mechanical Fire Dragon out of 8,000 red and gold LEGO pieces. <span class="gap-slot">[GAP 1] <select class="brick-select" id="gt1"><option value="">-- pick --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></span> Whenever spectators clapped their hands near the table, the dragon roared and spread its wings.</p>
+
+        <p>On the morning of the final judging, however, Leo arrived at the hall and realized the dragon's wings were completely frozen. <span class="gap-slot">[GAP 2] <select class="brick-select" id="gt2"><option value="">-- pick --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></span> Security guards immediately checked the main exit cameras, yet nobody had left the building carrying a suspicious bag.</p>
+
+        <p>While everyone else panicked, Leo remembered that his smart battery connected via Bluetooth to an app on his phone. <span class="gap-slot">[GAP 3] <select class="brick-select" id="gt3"><option value="">-- pick --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></span> Following the green radar dot on his screen, Leo walked across the convention floor to a snack booth twenty meters away.</p>
+
+        <p>There, sitting beside a stroller, was a mischievous toddler happily pressing the glowing buttons on the battery pack like a toy remote control. <span class="gap-slot">[GAP 4] <select class="brick-select" id="gt4"><option value="">-- pick --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></span> Within two minutes, the dragon was roaring again, and the judges awarded Leo first place for both engineering and problem-solving.</p>
+      </div>
+
+      <div class="sentence-pool">
+        <strong style="display:block; margin-bottom:8px; color:var(--lego-green);">Missing Sentences Pool (Choose A, B, C, D, or E):</strong>
+        <ul style="list-style-type: upper-alpha;">
+          <li>When he opened the rear maintenance hatch, he discovered that the rechargeable battery pack had vanished!</li>
+          <li>Instead of getting angry, Leo gently traded the power module for a spare golden ninja minifigure from his pocket.</li>
+          <li>To make his model truly unforgettable, he hid a programmable sound-sensor motor deep inside its chest.</li>
+          <li>Unfortunately, the convention organizers decided to cancel the competition due to a power outage.</li>
+          <li>He quickly opened the diagnostic tracker and noticed that the signal was still active inside the hall!</li>
+        </ul>
+      </div>
+
+      <button class="lego-btn" style="background:var(--lego-green);" onclick="checkGappedText()">🧩 Verify Narrative Logic</button>
+      <div class="feedback-box" id="gtFeedback"></div>
+
+      <!-- EXTERNAL LINKS FOR CHAPTER 3 -->
+      <div class="external-box">
+        <h4>🌐 External Practice: Official Cambridge B2 &amp; Romanian Olympiad Reading</h4>
+        <div class="ext-links-row">
+          <a class="ext-card" href="https://www.cambridgeenglish.org/exams-and-tests/qualifications/first/preparation/" target="_blank" rel="noopener noreferrer">
+            <strong>Cambridge English Official B2 First Prep</strong>
+            <span>Free digital sample tests for B2 First for Schools (Reading, Use of English &amp; Writing).</span>
+          </a>
+          <a class="ext-card" href="https://www.edupedu.ro/olimpiada-nationala-de-limba-engleza-onle-2026-etapa-judeteana-subiecte-si-bareme-de-notare-de-la-proba-scrisa-clasele-vii-xii-normal-si-bilingv-sau-intensiv/" target="_blank" rel="noopener noreferrer">
+            <strong>ONLE 2026 Subiecte și Bareme (Edupedu)</strong>
+            <span>Recent Romanian English Olympiad subjects and official grading keys.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-footer-nav">
+        <button class="lego-btn" style="background:#64748b; margin:0;" onclick="goToPage('page2', 1)">⬅ Prev: Star Wars Cloze</button>
+        <button class="lego-btn" style="background:var(--lego-yellow); color:#161a26; margin:0;" onclick="goToPage('page4', 3)">Next: Pit Crew Audio ➔</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       PAGE 4: LEGO SPEED CHAMPIONS (B2 LISTENING)
+       ========================================================= -->
+  <main id="page4" class="chapter-page">
+    <div class="lego-card">
+      <div class="set-banner" style="background: var(--lego-yellow); color:#161a26;">Set 76917 // B2 Listening Comprehension</div>
+      <h2>Pit Crew Radio: The 24-Hour Brick Race</h2>
+      <p style="margin-bottom:14px;">Listen to Chief Engineer Marcus briefing his Speed Champions racing team. Pay attention to idioms, cause-and-effect logic, and speaker attitude:</p>
+
+      <div class="audio-bar">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="lego-btn" id="playRaceBtn" style="background:var(--lego-dark); margin:0;" onclick="toggleRaceAudio()">▶ Play Pit Crew Briefing</button>
+          <button class="lego-btn" style="background:#64748b; margin:0;" onclick="stopRaceAudio()">⏹ Stop</button>
+        </div>
+        <div class="stud-waves" id="raceWaves" style="opacity:0.25;">
+          <div class="s-bar"></div><div class="s-bar"></div><div class="s-bar"></div><div class="s-bar"></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="lq1">
+        <p>1. Why did the front spoiler detach during last night's practice session?</p>
+        <label><input type="radio" name="au1" value="A"> A) Someone had cut corners and hadn't pushed two Technic pins in completely.</label>
+        <label><input type="radio" name="au1" value="B"> B) The electric battery overheated and melted the chassis.</label>
+        <label><input type="radio" name="au1" value="C"> C) The car crashed into a wall at maximum speed.</label>
+      </div>
+
+      <div class="q-card" id="lq2">
+        <p>2. How does Marcus view last night's mechanical failure?</p>
+        <label><input type="radio" name="au2" value="A"> A) He believes it ruined their chances of winning today's championship.</label>
+        <label><input type="radio" name="au2" value="B"> B) He considers it "a blessing in disguise" because they caught the flaw before the real race.</label>
+        <label><input type="radio" name="au2" value="C"> C) He thinks they need to go "back to the drawing board" and redesign the entire car.</label>
+      </div>
+
+      <div class="q-card" id="lq3">
+        <p>3. What advice does Marcus give regarding the team's pit-stop strategy?</p>
+        <label><input type="radio" name="au3" value="A"> A) Everyone must be "on the same page" and double-check every axle step by step.</label>
+        <label><input type="radio" name="au3" value="B"> B) They should skip the safety checks to save ten seconds.</label>
+        <label><input type="radio" name="au3" value="C"> C) They should call it a day if it starts raining.</label>
+      </div>
+
+      <button class="lego-btn" style="background:var(--lego-yellow); color:#161a26;" onclick="checkAudio()">🎧 Verify Pit Crew Intel</button>
+      <div class="feedback-box" id="auFeedback"></div>
+
+      <!-- EXTERNAL LINKS FOR CHAPTER 4 -->
+      <div class="external-box">
+        <h4>🌐 External Practice: B2 Listening &amp; Comprehension</h4>
+        <div class="ext-links-row">
+          <a class="ext-card" href="https://learnenglishteens.britishcouncil.org/skills/listening/b2-listening" target="_blank" rel="noopener noreferrer">
+            <strong>British Council Teens — B2 Listening</strong>
+            <span>Upper-intermediate audio broadcasts with interactive gap-fills and inference questions.</span>
+          </a>
+          <a class="ext-card" href="https://www.examenglish.com/FCE/fce_listening.html" target="_blank" rel="noopener noreferrer">
+            <strong>ExamEnglish — Cambridge B2 Listening</strong>
+            <span>4-part B2 First listening practice tests with audio players and instant scoring.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-footer-nav">
+        <button class="lego-btn" style="background:#64748b; margin:0;" onclick="goToPage('page3', 2)">⬅ Prev: Ninjago Gapped Text</button>
+        <button class="lego-btn" style="background:var(--lego-orange); margin:0;" onclick="goToPage('page5', 4)">Next: Creative Logic Lab ➔</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       PAGE 5: LEGO CREATOR (CREATIVE STORY LOGIC + SPEAKING)
+       ========================================================= -->
+  <main id="page5" class="chapter-page">
+    <div class="lego-card">
+      <div class="set-banner" style="background: var(--lego-orange);">Set 10305 // Creative Story Bridge &amp; Speaking Lab</div>
+      <h2>Creative Writing Training: Fill the Missing Story Logic</h2>
+      <p>Writing a story is just like snapping LEGO bricks together: you need a <strong>Problem Brick</strong>, a <strong>Clever Action Brick</strong>, and a <strong>Result Brick</strong>. Practice completing the two missing story bridges below!</p>
+
+      <!-- STORY BRIDGE 1: MIDDLE OF THE STORY -->
+      <h3>Bridge 1: What Happened in the Middle? (40–60 Words)</h3>
+      <p style="font-size:0.94rem; color:var(--text-muted);">Read the beginning and the ending of Story 1. Write the <strong>missing middle paragraph</strong> so the ending makes complete logical sense!</p>
+
+      <div class="bridge-box">
+        <p><strong>Beginning:</strong> Last Saturday, Andrei and I decided to build a giant LEGO bridge across two desks in my bedroom. We wanted to test if it could hold five heavy school textbooks without breaking.</p>
+        <div style="background:#ffffff; border:2px dashed var(--lego-orange); border-radius:10px; padding:12px; margin:10px 0;">
+          <span style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:#c2410c; font-weight:800;">[YOUR MISSING MIDDLE PARAGRAPH — Explain what went wrong &amp; how you fixed it!]</span>
+          <textarea class="lego-pad" id="midStory" style="height:95px;" placeholder="At first, we tried building a flat bridge, but when we put the second book on top, it collapsed! So we went back to the drawing board and..."></textarea>
+        </div>
+        <p><strong>Ending:</strong> Thanks to those triangular support pillars, the bridge easily held all five textbooks, and we felt proud of our engineering ingenuity!</p>
+      </div>
+
+      <!-- STORY BRIDGE 2: ENDING OF THE STORY -->
+      <h3>Bridge 2: Write the Logical Ending (50–70 Words)</h3>
+      <p style="font-size:0.94rem; color:var(--text-muted);">Read the setup below and write a logical ending. Include at least <strong>one idiom</strong> from Set 01 and start every sentence with a clear Subject + Verb:</p>
+
+      <div class="bridge-box" style="background:#f0f9ff; border-color:#bae6fd; border-left-color:var(--lego-blue);">
+        <p><strong>Setup:</strong> Ten minutes before the school robotics competition started, I opened my backpack and gasped in horror. My LEGO rover had shaken apart on the bus ride, and dozens of gears and sensors were rolling around at the bottom of my bag...</p>
+        <div style="background:#ffffff; border:2px dashed var(--lego-blue); border-radius:10px; padding:12px; margin:10px 0;">
+          <span style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--lego-blue); font-weight:800;">[YOUR LOGICAL ENDING — How did you rebuild it in 10 minutes?]</span>
+          <textarea class="lego-pad" id="endStory" style="height:95px;" placeholder="Instead of panicking, I dumped all the pieces onto the table. Thankfully, my teammate and I were on the same page..."></textarea>
+        </div>
+      </div>
+
+      <button class="lego-btn" style="background:var(--lego-orange);" onclick="checkCreativeWriting()">🚀 Analyze My Story Bridges</button>
+      <div class="feedback-box" id="cwFeedback"></div>
+
+      <hr style="border:none; border-top:2px dashed var(--border-light); margin:28px 0 20px;">
+
+      <h3>🎙️ Speaking Arena: Complete-Sentence Challenge</h3>
+      <p style="font-size:0.94rem; color:var(--text-muted);">Answer aloud using the <strong>Subject + Verb + Reason</strong> formula (no one-word answers!):</p>
+
+      <div class="speak-grid">
+        <div class="speak-tile">
+          <h4>1. Using an Idiom Aloud</h4>
+          <p style="font-size:0.92rem;">"Tell me about a time you <strong>bit off more than you could chew</strong> in school, gaming, or a LEGO build."</p>
+          <p style="font-size:0.84rem; color:#9a3412; margin-top:8px;"><strong>Starter:</strong> "Last year, I definitely bit off more than I could chew when I tried to... because..."</p>
+        </div>
+        <div class="speak-tile">
+          <h4>2. A Blessing in Disguise</h4>
+          <p style="font-size:0.92rem;">"Has a mistake or a cancelled plan ever turned out to be <strong>a blessing in disguise</strong> for you?"</p>
+          <p style="font-size:0.84rem; color:#9a3412; margin-top:8px;"><strong>Starter:</strong> "Actually, yes—last month something went wrong when... At first I was upset, but it turned out to be a blessing in disguise because..."</p>
+        </div>
+      </div>
+
+      <!-- EXTERNAL LINKS FOR CHAPTER 5 -->
+      <div class="external-box">
+        <h4>🌐 External Practice: Olympiad &amp; Cambridge B2 Story Writing</h4>
+        <div class="ext-links-row">
+          <a class="ext-card" href="https://learnenglishteens.britishcouncil.org/skills/writing/b1-writing/a-story" target="_blank" rel="noopener noreferrer">
+            <strong>British Council Teens — How to Write a Story</strong>
+            <span>Model stories, narrative connectors, and interactive paragraph-ordering exercises.</span>
+          </a>
+          <a class="ext-card" href="https://www.cambridgeenglish.org/learning-english/activities-for-learners/b2w003-writing-a-story" target="_blank" rel="noopener noreferrer">
+            <strong>Cambridge English — B2 Story Structure</strong>
+            <span>Interactive activity teaching how to link opening prompts to logical story endings.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-footer-nav">
+        <button class="lego-btn" style="background:#64748b; margin:0;" onclick="goToPage('page4', 3)">⬅ Prev: Pit Crew Audio</button>
+        <button class="lego-btn" style="background:var(--lego-blue); margin:0;" onclick="goToPage('page1', 0)">↺ Back to Set 01</button>
+      </div>
+    </div>
+  </main>
 </div>
 
 <script>
-function toggle(id) {
-  document.getElementById(id).classList.toggle('hidden');
+// HORIZONTAL MULTI-PAGE NAVIGATION
+function openChapter(pageId, btnEl) {
+  document.querySelectorAll('.chapter-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.brick-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToPage(pageId, tabIndex) {
+  const tabs = document.querySelectorAll('.brick-tab');
+  openChapter(pageId, tabs[tabIndex]);
+}
+
+// PAGE 1A: IDIOM MATCHING
+let selIdiomLeft = null;
+let idiomSnapped = 0;
+const idLeft = document.querySelectorAll('#id-left .match-tile');
+const idRight = document.querySelectorAll('#id-right .match-tile');
+
+idLeft.forEach(tile => {
+  tile.addEventListener('click', () => {
+    if (tile.classList.contains('matched')) return;
+    idLeft.forEach(t => t.classList.remove('selected'));
+    tile.classList.add('selected');
+    selIdiomLeft = tile;
+  });
+});
+
+idRight.forEach(tile => {
+  tile.addEventListener('click', () => {
+    if (tile.classList.contains('matched') || !selIdiomLeft) return;
+    if (selIdiomLeft.getAttribute('data-id') === tile.getAttribute('data-match')) {
+      selIdiomLeft.classList.remove('selected');
+      selIdiomLeft.classList.add('matched');
+      tile.classList.add('matched');
+      selIdiomLeft = null;
+      idiomSnapped++;
+      const stat = document.getElementById('idiomStat');
+      stat.innerText = `Snapped: ${idiomSnapped} / 6 Idioms`;
+      if (idiomSnapped === 6) {
+        stat.style.color = "var(--lego-green)";
+        stat.innerText = "✔ All 6 Idiom Bricks Snapped!";
+      }
+    } else {
+      tile.style.borderColor = "var(--lego-red)";
+      setTimeout(() => { tile.style.borderColor = "var(--border-light)"; }, 500);
+    }
+  });
+});
+
+function resetIdioms() {
+  idiomSnapped = 0;
+  selIdiomLeft = null;
+  document.querySelectorAll('#page1 .match-tile').forEach(t => t.classList.remove('selected', 'matched'));
+  const stat = document.getElementById('idiomStat');
+  stat.style.color = "var(--lego-blue)";
+  stat.innerText = "Snapped: 0 / 6 Idioms";
+}
+
+// PAGE 1B: IDIOM GAP-FILLS
+function checkIdiomGaps() {
+  let score = 0;
+  const check = (id, valid) => {
+    const el = document.getElementById(id);
+    const val = el.value.trim().toLowerCase().replace(/[.!]/g, '');
+    if (valid.includes(val)) {
+      el.style.borderColor = "var(--lego-green)";
+      el.style.background = "#f0fdf4";
+      score++;
+    } else {
+      el.style.borderColor = "var(--lego-red)";
+      el.style.background = "#fef2f2";
+    }
+  };
+
+  check('idg1', ['cost an arm and a leg', 'costs an arm and a leg']);
+  check('idg2', ['back to the drawing board']);
+  check('idg3', ['hit the nail on the head']);
+  check('idg4', ['call it a day']);
+  check('idg5', ['cut corners']);
+
+  const fb = document.getElementById('idGapFeedback');
+  fb.style.display = 'block';
+  if (score === 5) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = "🔧 5 / 5 IDIOM MASTER! Every expression fits naturally in context.";
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ ${score} / 5 Correct: Check spelling on the idioms above.`;
+  }
+}
+
+// PAGE 2A: REPHRASING CHECKER (8 ITEMS)
+function checkRephrasing() {
+  let score = 0;
+  const check = (id, validArr) => {
+    const el = document.getElementById(id);
+    const val = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (validArr.includes(val)) {
+      el.style.borderColor = "var(--lego-green)";
+      el.style.background = "#f0fdf4";
+      score++;
+    } else {
+      el.style.borderColor = "var(--lego-red)";
+      el.style.background = "#fef2f2";
+    }
+  };
+
+  check('rp1', ['has collected lego star wars ships for', 'has collected star wars ships for', 'has collected lego ships for']);
+  check('rp2', ['not cheap enough']);
+  check('rp3', ['is repaired by r2-d2', 'is repaired by r2d2']);
+  check('rp4', ['were you, i would not', "were you, i wouldn't", 'were you i would not', "were you i wouldn't"]);
+  check('rp5', ['wish i had checked', 'wish that i had checked']);
+  check('rp6', ['the fastest builder']);
+  check('rp7', ['despite the complicated', 'despite having complicated']);
+  check('rp8', ['a piece of cake']);
+
+  const fb = document.getElementById('rpFeedback');
+  fb.style.display = 'block';
+  if (score >= 7) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = `🌟 ${score} / 8 CAMBRIDGE B2 TRANSFORMATIONS! Outstanding precision.`;
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ ${score} / 8 Correct: Check word count (2–5 words) and ensure the KEY WORD is unchanged.`;
+  }
+}
+
+// PAGE 2B: OPEN CLOZE CHECKER
+function checkOpenCloze() {
+  const keys = {
+    cl1: ['but', 'though', 'yet', 'although'],
+    cl2: ['out'],
+    cl3: ['than'],
+    cl4: ['though', 'if'],
+    cl5: ['so', 'therefore'],
+    cl6: ['were'],
+    cl7: ['where'],
+    cl8: ['which', 'that']
+  };
+  let score = 0;
+  for (let id in keys) {
+    const el = document.getElementById(id);
+    const val = el.value.trim().toLowerCase();
+    if (keys[id].includes(val)) {
+      el.style.borderColor = "var(--lego-green)";
+      el.style.background = "#f0fdf4";
+      score++;
+    } else {
+      el.style.borderColor = "var(--lego-red)";
+      el.style.background = "#fef2f2";
+    }
+  }
+  const fb = document.getElementById('clozeFeedback');
+  fb.style.display = 'block';
+  if (score >= 7) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = `⚡ ${score} / 8 OPEN CLOZE MASTERED! Great command of B2 grammar connectors.`;
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ ${score} / 8 Correct: Remember—"made OUT of", "more THAN", "even THOUGH".`;
+  }
+}
+
+// PAGE 3: CAMBRIDGE B2 GAPPED TEXT CHECKER
+function checkGappedText() {
+  const ans = { gt1: 'C', gt2: 'A', gt3: 'E', gt4: 'B' };
+  let score = 0;
+  for (let id in ans) {
+    const el = document.getElementById(id);
+    if (el.value === ans[id]) {
+      el.style.borderColor = "var(--lego-green)";
+      el.style.background = "#dcfce7";
+      score++;
+    } else {
+      el.style.borderColor = "var(--lego-red)";
+      el.style.background = "#fee2e2";
+    }
+  }
+  const fb = document.getElementById('gtFeedback');
+  fb.style.display = 'block';
+  if (score === 4) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = "🐉 4 / 4 GAPPED TEXT LOGIC! You matched every cause-and-effect clue perfectly.";
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ ${score} / 4 Correct: Look at the pronouns and clues right after each gap (e.g., "motor" -> "roared"; "tracker" -> "green radar dot").`;
+  }
+}
+
+// PAGE 4: AUDIO BRIEFING (TTS)
+const raceScript = `Listen up, Speed Champions pit crew! Before the twenty-four-hour LEGO Technic endurance race starts, we need to review what happened during last night's final test run. On lap twelve, the front spoiler suddenly snapped off because someone had cut corners and hadn't pushed two Technic pins in completely. Honestly, finding that mistake last night was a blessing in disguise! If it had happened during today's championship race, we would have lost precious minutes in the pit lane. Remember what separates true Master Builders from beginners: good habits and teamwork. Make sure everyone in the pit lane is on the same page, and double-check every single axle and gear connection step by step instead of rushing. Let's win this trophy!`;
+
+let synth = window.speechSynthesis;
+function toggleRaceAudio() {
+  if (!synth) return alert("Speech synthesis not supported in this browser.");
+  if (synth.speaking) {
+    synth.cancel();
+    document.getElementById('playRaceBtn').innerText = "▶ Resume Briefing";
+    document.getElementById('raceWaves').style.opacity = "0.25";
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(raceScript);
+  u.rate = 0.94;
+  u.onstart = () => {
+    document.getElementById('playRaceBtn').innerText = "⏸ Pause Briefing";
+    document.getElementById('raceWaves').style.opacity = "1";
+  };
+  u.onend = () => {
+    document.getElementById('playRaceBtn').innerText = "▶ Replay Briefing";
+    document.getElementById('raceWaves').style.opacity = "0.25";
+  };
+  synth.speak(u);
+}
+
+function stopRaceAudio() {
+  if (synth) {
+    synth.cancel();
+    document.getElementById('playRaceBtn').innerText = "▶ Play Pit Crew Briefing";
+    document.getElementById('raceWaves').style.opacity = "0.25";
+  }
+}
+
+function checkAudio() {
+  const ans = { au1: 'A', au2: 'B', au3: 'A' };
+  let score = 0;
+
+  for (let i = 1; i <= 3; i++) {
+    const sel = document.querySelector(`input[name="au${i}"]:checked`);
+    const box = document.getElementById(`lq${i}`);
+    if (sel && sel.value === ans[`au${i}`]) {
+      box.style.borderColor = "var(--lego-green)";
+      box.style.background = "#f0fdf4";
+      score++;
+    } else {
+      box.style.borderColor = "var(--lego-red)";
+      box.style.background = "#fef2f2";
+    }
+  }
+
+  const fb = document.getElementById('auFeedback');
+  fb.style.display = 'block';
+  if (score === 3) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = "🏁 3 / 3 POLE POSITION! You caught all three idioms and details.";
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ ${score} / 3 Correct: Listen again for "cut corners", "blessing in disguise", and "on the same page".`;
+  }
+}
+
+// PAGE 5: CREATIVE STORY BRIDGES CHECKER
+function checkCreativeWriting() {
+  const mid = document.getElementById('midStory').value.trim();
+  const end = document.getElementById('endStory').value.trim();
+  const wcMid = mid ? mid.split(/\s+/).length : 0;
+  const wcEnd = end ? end.split(/\s+/).length : 0;
+
+  const fb = document.getElementById('cwFeedback');
+  fb.style.display = 'block';
+
+  const midHasLogic = mid.toLowerCase().includes('pillar') || mid.toLowerCase().includes('support') || mid.toLowerCase().includes('triangle') || mid.toLowerCase().includes('built') || mid.toLowerCase().includes('used');
+  const endHasSubj = end.toLowerCase().includes('i ') || end.toLowerCase().includes('we ') || end.toLowerCase().includes('my ');
+
+  if (wcMid >= 25 && wcEnd >= 35 && midHasLogic && endHasSubj) {
+    fb.style.background = "#dcfce7";
+    fb.style.color = "#14532d";
+    fb.innerText = `🚀 STORY BRIDGES COMPLETE! Bridge 1 (${wcMid} words) connects cleanly to the ending, and Bridge 2 (${wcEnd} words) uses complete sentences!`;
+  } else {
+    fb.style.background = "#fef9c3";
+    fb.style.color = "#854d0e";
+    fb.innerText = `⚠ Bridge Check (Bridge 1: ${wcMid} words | Bridge 2: ${wcEnd} words): Make sure Bridge 1 mentions building support pillars so it matches the ending sentence, and write at least 35–50 words per bridge!`;
+  }
 }
 </script>
 </body>
